@@ -1,73 +1,56 @@
 import random
 
-filehandle = open('occupations.csv','r')
+newFile = open('occupations.csv','r')
 
-csv_list = filehandle.readlines()
-list_of_percents = list()
-list_of_jobs = list()
+#1. Make a dictionary that maps the correct values
 
-# Part 1
-# Make dictionary from CSV file
-for pair in csv_list:
-    rev_pair = pair[::-1]
-    rev_percentage = ''
-    rev_job = ''
-    index_of_comma = 0
-    for char in rev_pair:
-        if char != ',':
-            rev_percentage += char
-            index_of_comma += 1
-        elif char == ',':
-            break
-    for char in rev_pair[(index_of_comma + 1):]:
-        rev_job += char
-    list_of_percents.append(rev_percentage[:0:-1])
-    list_of_jobs.append(rev_job[::-1])
+percentages= list()
+jobs = list()
+occupations=dict()
+lineRead = 0
 
-list_of_jobs = list_of_jobs[1:len(list_of_jobs)-1]
-list_of_jobs = list(map(lambda s: s.strip('"'), list_of_jobs))
+for lien in newFile.readlines():
+    place = lien.split(', ')
+    hold = list()
+    desc = ''
+    line = list()
+    for p in place:
+        p = p.split(',')
+        for h in p:
+            h=h.replace('"','')
+            hold.append(h)
+    if len(hold) > 2:
+        for a in range(len(hold)-1):
+            if a < len(hold)-2:
+                desc+=hold[a] + ', '
+            else:
+                desc+=hold[a]
+        line.append(desc)
+        line.append(hold[len(hold)-1])
+    else:
+        line.append(hold[0])
+        line.append(hold[1])
+    if lineRead > 0:
+        jobs.append(line[0])
+        percentages.append(float(line[1][:-1]))
+        occupations[line[0]] = float(line[1][:-1])
+    lineRead+=1
+newFile.close()
+#print(occupations)
 
-list_of_percents = list_of_percents[1:len(list_of_percents)-1]
-list_of_percents = list(map(float, list_of_percents))
+#2. Make a function that returns random job where results are weighted by percentage given
 
-dict_percent_job = {}
-
-for index in range(len(list_of_jobs)):
-    dict_percent_job.update({list_of_jobs[index] : list_of_percents[index]})
-#print(dict_percent_job)
-
-# Part 2
-# Make function to randomly select job based on weight
-def sum_list(listParam):
-    answer = 0
-    for x in listParam:
-        answer += x
-    return answer
-
-def accumulate_list(listParam):
-    result = list()
-    for index in range(len(listParam)):
-        result.append(listParam[index] + sum_list(listParam[:index]))
-    return result
-
-percent_accumulated = accumulate_list(list_of_percents)
-
-def randomJob():
-    randomNumber = random.randrange(0, 99)
-    piechart = percent_accumulated
-    index = 0
-    for x in piechart:
-        if randomNumber <= x:
-            print("Loop Complete")
-            print(x)
-            print(index)
-            return list_of_jobs[index]
-        else:
-            index += 1
-print(randomJob())
-
-filehandle.close()
-
+stored = 0
+intervals = list()
+for per in range(len(percentages)-1):
+    stored+=percentages[per]
+    intervals.append(stored)
+def randJob():
+    chosen = random.randrange(0,99)
+    for inter in range(len(intervals)):
+        if chosen <= intervals[inter]:
+            return jobs[inter]
+print(randJob())
 
 
 
