@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <p>Request method: {{ request.method }}</p>
+    {% if request.form.get('username') %}
+        <p>Username: <b>{{ request.form.get('username') }}</b></p>
+        <p>How's it going <b>{{ request.form.get('username') }}</b>. I hope your day is good today :)</p>
+    {% else %}
+        <p>No form data!</p>
+    {% endif %}
+
+
+{% endblock content %}

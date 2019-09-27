@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms!</title>
+</head>
+<body>
+    <h1>Team Ukraine</h1>
+    <p>Ivan Galakhov and Jesse Chen(ov)</p>
+    {% block content %}
+    {% endblock content %}
+    <hr>
+    <a href="{{ url_for('index') }}">index</a>
+    <a href="{{ url_for('auth') }}">auth</a>
+</body>
+</html>
