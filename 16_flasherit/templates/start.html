@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>A Random Login Page on the Internet</title>
+    </head>
+    <body>
+        {% block header %}
+        <h1><center>Just a Random Login Page on the Internet</center></h1>
+        {% endblock %}
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <h3><center style="color:red">{{ message }}</center></h3>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block body %}
+        <form action="/auth" method="POST">
+            <center>
+                Username: <input type="text" name="username"><br>
+                Password: <input type="password" name="password"><br>
+                <input type="submit" name="submitButton"><br>
+            </center>
+        </form>
+        {% endblock %}
+
+        {% block footer %}
+        <i>Copyright Team Foresight 2019 All Rights Reserved</i>
+        {% endblock %}
+    </body>
+</html>

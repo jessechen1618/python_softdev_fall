@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% extends 'start.html' %}
+        <title>Welcome!</title>
+    </head>
+    <body>
+        {% block body %}
+        <form action="/logout" method="GET">
+            <h4>Click here to log out!</h4>
+            <input type="submit" name="submit">
+        </form>
+        {% endblock %}
+    </body>
+</html>
